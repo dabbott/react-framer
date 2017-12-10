@@ -10,7 +10,7 @@
   "dependencies": {
     "fbjs": "0.8.16",
     "react": "^16.1.1",
-    "react-reconciler": "0.2.0"
+    "react-reconciler": "0.7.0"
   },
   "devDependencies": {
     "webpack": "^3.8.1",
