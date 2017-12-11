@@ -1,30 +1,30 @@
-const { React } = window;
-const { Context, Layer } = window.ReactFramer;
+// const { React } = window;
+// const { Context, Layer } = window.ReactFramer;
 
-// console.log("rf", RFContext);
+// // console.log("rf", RFContext);
 
-class MyComponent extends React.Component {
-  render() {
-    console.log("render my component", this.props);
+// class MyComponent extends React.Component {
+//   render() {
+//     console.log("render my component", this.props);
 
-    return React.createElement(Layer, {
-      backgroundColor: this.props.backgroundColor
-    });
-  }
-}
-
-// class Test {
-//   constructor() {
-//     console.log("made test");
+//     return React.createElement(Layer, {
+//       backgroundColor: this.props.backgroundColor
+//     });
 //   }
 // }
 
-// const element = new Test();
+// // class Test {
+// //   constructor() {
+// //     console.log("made test");
+// //   }
+// // }
 
-const context = new Context();
+// // const element = new Test();
 
-context.update(React.createElement(MyComponent, { backgroundColor: "red" }));
-context.update(React.createElement(MyComponent, { backgroundColor: "blue" }));
+// const context = new Context();
+
+// context.update(React.createElement(MyComponent, { backgroundColor: "red" }));
+// context.update(React.createElement(MyComponent, { backgroundColor: "blue" }));
 
 // Welcome to Framer
 
@@ -37,7 +37,7 @@ context.update(React.createElement(MyComponent, { backgroundColor: "blue" }));
 //   height: 128,
 //   image: "images/Icon.png"
 // });
-// imageLayer.center();
+// // imageLayer.center();
 
 // // Define a set of states with names (the original state is 'default')
 // imageLayer.states = {

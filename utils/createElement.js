@@ -1,3 +1,6 @@
+import Root from "../components/Root";
+import Layer from "../components/Layer";
+
 // Framer.Defaults.DeviceView.deviceType = "iphone-6-silver";
 
 // device = new Framer.DeviceView();
@@ -14,8 +17,7 @@ function getHostContextNode(rootNode) {
       `${rootNode} is not an instance of officegen docx constructor.`
     );
 
-    throw new Error("no root!");
-    // return (ROOT_NODE_INSTANCE = new WordDocument());
+    return (ROOT_NODE_INSTANCE = new Root());
   }
 }
 
@@ -25,14 +27,13 @@ function getHostContextNode(rootNode) {
  * @param {Object} props Component props
  * @param {Object} root Root instance
  */
-function createElement(type, props, root) {
-  // const COMPONENTS = {
-  //   ROOT: () => new WordDocument(),
-  //   LAYER: () => new Layer(root, props),
-  //   TEXT_LAYER: () => new TextLayer(root, props),
-  //   default: undefined
-  // };
-  // return COMPONENTS[type]() || COMPONENTS.default;
+function createElement(type, props) {
+  const COMPONENTS = {
+    ROOT: () => new Root(),
+    LAYER: () => new Layer(ROOT_NODE_INSTANCE, props),
+    default: undefined
+  };
+  return COMPONENTS[type]() || COMPONENTS.default;
 }
 
 export { createElement, getHostContextNode };
