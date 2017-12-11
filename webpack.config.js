@@ -1,3 +1,5 @@
+const path = require("path");
+
 module.exports = options => {
   return {
     entry: {
@@ -6,7 +8,8 @@ module.exports = options => {
     },
     output: {
       filename: "[name]-bundle.js",
-      path: __dirname
+      path: path.join(__dirname, "dist"),
+      publicPath: "/dist/"
     },
     module: {
       rules: [

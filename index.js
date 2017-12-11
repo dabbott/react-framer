@@ -88,7 +88,7 @@ const FramerRenderer = Reconciler({
 
   mutation: {
     appendChild(parentInstance, child) {
-      console.log("Mutation > appendChild");
+      console.log("Mutation > appendChild", parentInstance, child);
       if (parentInstance.appendChild) {
         parentInstance.appendChild(child);
       } else {
