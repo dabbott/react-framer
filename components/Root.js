@@ -1,12 +1,15 @@
 import React from "react";
 
+const rootName = (() => {
+  let base = 0;
+  return () => `Context${base++}`;
+})();
+
 export default class Root {
-  constructor() {
+  constructor(props) {
     this.context = new Framer.Context({
-      name: "root",
-      width: 1000,
-      height: 1000,
-      backgroundColor: "red"
+      name: rootName(),
+      ...props
     });
   }
 }

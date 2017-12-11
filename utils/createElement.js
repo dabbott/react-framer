@@ -27,9 +27,9 @@ function getHostContextNode(rootNode) {
  * @param {Object} props Component props
  * @param {Object} root Root instance
  */
-function createElement(type, props) {
+function createElement(type, props, root) {
   const COMPONENTS = {
-    ROOT: () => new Root(),
+    ROOT: () => new Root(props),
     LAYER: () => new Layer(ROOT_NODE_INSTANCE, props),
     default: undefined
   };

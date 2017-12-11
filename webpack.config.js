@@ -1,8 +1,12 @@
 module.exports = options => {
   return {
-    entry: "./index.js",
+    entry: {
+      lib: "./index.js",
+      app: "./app.js"
+    },
     output: {
-      filename: "bundle.js"
+      filename: "[name]-bundle.js",
+      path: __dirname
     },
     module: {
       rules: [

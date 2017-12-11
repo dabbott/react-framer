@@ -865,17 +865,10 @@ function render(element) {
 const Layer = "LAYER";
 const Root = "ROOT";
 
-class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Layer, null);
-  }
-}
-
 window.ReactFramer = {
   render,
   Root,
-  Layer,
-  handle: render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(App, null))
+  Layer
 };
 
 /***/ }),

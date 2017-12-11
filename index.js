@@ -137,8 +137,8 @@ const FramerRenderer = Reconciler({
   }
 });
 
-function render(element) {
-  const container = createElement("ROOT");
+function render(element, rootLayer) {
+  const container = createElement("ROOT", { parent: rootLayer });
 
   const fiber = FramerRenderer.createContainer(container);
 
@@ -150,15 +150,8 @@ function render(element) {
 const Layer = "LAYER";
 const Root = "ROOT";
 
-class App extends React.Component {
-  render() {
-    return <Layer />;
-  }
-}
-
 window.ReactFramer = {
   render,
   Root,
-  Layer,
-  handle: render(<App />)
+  Layer
 };

@@ -3,6 +3,10 @@ export default class Layer {
     this.root = root;
     this.props = props;
     this.children = [];
+
+    this.run(() => {
+      new Framer.Layer(props);
+    });
   }
 
   run(f) {
