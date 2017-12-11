@@ -3,39 +3,55 @@ export default class Layer {
     this.root = root;
     this.props = props;
     this.children = [];
-
-    this.run(() => {
-      new Framer.Layer(props);
-    });
-  }
-
-  run(f) {
-    this.root.context.run(f);
+    this.backingLayer = null;
   }
 
   appendChild(child) {
     this.children.push(child);
   }
 
-  // Remove children
   removeChild(child) {
-    const index = this.children.indexOf(child);
-    this.children.splice(index, 1);
+    this.children = this.children.filter(item => item === child);
   }
 
-  renderChildren() {
-    for (let i = 0; i < this.children.length; i += 1) {
-      if (typeof this.children[i] === "string") {
-        // If not a component, render it as a paragraph
-        // this.adder.addText(this.children[i]);
-      } else if (typeof this.children[i] === "object") {
-        // We know it's a component so just call the render() method
-        this.children[i].render();
+  render(superLayer) {
+    this.backingLayer = new Framer.Layer({
+      ...this.props,
+      superLayer
+    });
+
+    Object.keys(this.props).forEach(key => {
+      const value = this.props[key];
+
+      // TODO: Event delegation
+      if (key.startsWith("on")) {
+        this.backingLayer[key](value);
       }
-    }
+    });
+
+    this.children.forEach(child => {
+      if (typeof child === "string") {
+        // TODO
+      } else {
+        child.render(this.backingLayer);
+      }
+    });
   }
 
-  render() {
-    this.renderChildren();
+  update(newProps) {
+    Object.keys(newProps).forEach(key => {
+      const value = newProps[key];
+
+      if (key === "children") {
+        return;
+      }
+
+      // TODO: Event delegation
+      if (key.startsWith("on")) {
+        this.backingLayer[key](value);
+      } else {
+        this.backingLayer[key] = value;
+      }
+    });
   }
 }

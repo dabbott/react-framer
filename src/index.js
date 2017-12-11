@@ -3,12 +3,6 @@ import Reconciler from "react-reconciler";
 import emptyObject from "fbjs/lib/emptyObject";
 import invariant from "fbjs/lib/invariant";
 import { createElement, getHostContextNode } from "./utils/createElement";
-// import Root from "./components/Root";
-// import Layer from "./components/Layer";
-
-function noop(...args) {
-  console.log("noop", ...args);
-}
 
 const FramerRenderer = Reconciler({
   appendInitialChild(parentInstance, child) {
@@ -88,21 +82,13 @@ const FramerRenderer = Reconciler({
 
   mutation: {
     appendChild(parentInstance, child) {
-      console.log("Mutation > appendChild", parentInstance, child);
-      if (parentInstance.appendChild) {
-        parentInstance.appendChild(child);
-      } else {
-        parentInstance.document = child;
-      }
+      console.log("Mutation > appendChild", parentInstance, child, "ik");
+      parentInstance.appendChild(child);
     },
 
     appendChildToContainer(parentInstance, child) {
-      console.log("Mutation > appendChildToContainer");
-      if (parentInstance.appendChild) {
-        parentInstance.appendChild(child);
-      } else {
-        parentInstance.document = child;
-      }
+      console.log("Mutation > appendChildToContainer", parentInstance, child);
+      parentInstance.appendChild(child);
     },
 
     removeChild(parentInstance, child) {
@@ -121,8 +107,15 @@ const FramerRenderer = Reconciler({
     },
 
     commitUpdate(instance, updatePayload, type, oldProps, newProps) {
-      console.log("Mutation > commitUpdate");
-      // noop
+      console.log(
+        "Mutation > commitUpdate",
+        instance,
+        updatePayload,
+        type,
+        oldProps,
+        newProps
+      );
+      instance.update(newProps);
     },
 
     commitMount(instance, updatePayload, type, oldProps, newProps) {

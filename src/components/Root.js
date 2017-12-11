@@ -12,4 +12,10 @@ export default class Root {
       ...props
     });
   }
+
+  appendChild(child) {
+    this.context.run(() => {
+      child.render();
+    });
+  }
 }
