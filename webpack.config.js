@@ -3,11 +3,11 @@ const path = require("path");
 module.exports = options => {
   return {
     entry: {
-      lib: "./index.js",
-      app: "./app.js"
+      "react-framer": "./src/index.js",
+      example: "./example/app.js"
     },
     output: {
-      filename: "[name]-bundle.js",
+      filename: "[name].js",
       path: path.join(__dirname, "dist"),
       publicPath: "/dist/"
     },
