@@ -1,3 +1,5 @@
+import linearGradient from "./utils/linearGradient";
+
 const device = new Framer.DeviceView();
 device.setupContext();
 device.fullScreen = true;
@@ -20,6 +22,11 @@ const GradientSlider = ({
       max={max}
       value={value}
       borderRadius={2}
+      shadow1={{
+        spread: 1,
+        color: "rgba(0,0,0,0.05)",
+        type: "inset"
+      }}
       knob={{
         width: 10,
         height: 24,
@@ -146,6 +153,7 @@ class App extends React.Component {
               text={color.toHslString()}
               color={"white"}
               fontSize={17}
+              fontWeight={600}
               textAlign={"center"}
               lineHeight={46}
             />
@@ -168,9 +176,19 @@ class App extends React.Component {
             value={hue}
             displayValue={Math.round(hue).toString()}
             onValueChange={this.handleHueChange}
-            gradient={
-              "linear-gradient(to right, rgb(255,0,0) 0%, rgb(255,255,0) 15%, rgb(0,255,0) 30%, rgb(0,255,255) 50%, rgb(0,0,255) 65%, rgb(255,0,255) 80%, rgb(255,0,0) 100%)"
-            }
+            gradient={linearGradient({
+              direction: "to right",
+              colors: [
+                "rgb(255,0,0)",
+                "rgb(255, 255, 0)",
+                "rgb(0, 255, 0)",
+                "rgb(0, 255, 255)",
+                "rgb(0, 0, 255)",
+                "rgb(255, 0, 255)",
+                "rgb(255, 0, 0)"
+              ],
+              locations: ["0%", "15%", "30%", "50%", "65%", "80%", "100%"]
+            })}
           />
           <LabeledSliderRow
             x={Align.center}
@@ -183,9 +201,11 @@ class App extends React.Component {
             value={saturation * 100}
             displayValue={Math.round(saturation * 100).toString()}
             onValueChange={this.handleSaturationChange}
-            gradient={`linear-gradient(to right, ${new Color(
-              currentHue
-            ).grayscale(0)} 0%, ${currentHue} 100%)`}
+            gradient={linearGradient({
+              direction: "to right",
+              colors: [new Color(currentHue).grayscale(0), currentHue],
+              locations: ["0%", "100%"]
+            })}
           />
           <LabeledSliderRow
             x={Align.center}
@@ -198,11 +218,15 @@ class App extends React.Component {
             value={lightness * 100}
             displayValue={Math.round(lightness * 100).toString()}
             onValueChange={this.handleLightnessChange}
-            gradient={`linear-gradient(to right, ${new Color(
-              currentHue
-            ).lighten(-50)} 0%, ${currentHue} 50%, ${new Color(
-              currentHue
-            ).lighten(100)} 100%)`}
+            gradient={linearGradient({
+              direction: "to right",
+              colors: [
+                new Color(currentHue).lighten(-50),
+                currentHue,
+                new Color(currentHue).lighten(100)
+              ],
+              locations: ["0%", "50%", "100%"]
+            })}
           />
         </Layer>
       </Layer>
