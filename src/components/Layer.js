@@ -3,16 +3,17 @@ import shallowEqual from "fbjs/lib/shallowEqual";
 class EventListenerProxy {
   constructor(layer, key, f) {
     this.f = f;
-    layer[key](this.run);
+
+    const run = (...args) => {
+      return this.f.apply(layer, args);
+    };
+
+    layer[key](run);
   }
 
   replace(f) {
     this.f = f;
   }
-
-  run = (...args) => {
-    this.f(...args);
-  };
 }
 
 export default class Layer {
@@ -32,14 +33,13 @@ export default class Layer {
     this.children = this.children.filter(item => item === child);
   }
 
-  mount(superLayer) {
-    this.backingLayer = new Framer.Layer({
-      ...this.props,
-      superLayer
-    });
+  createBackingLayer(props, superLayer) {
+    return new Framer.Layer({ ...props, superLayer });
+  }
 
-    Object.keys(this.props).forEach(key => {
-      const value = this.props[key];
+  applyInitialProps(props) {
+    Object.keys(props).forEach(key => {
+      const value = props[key];
 
       // TODO: Event delegation
       if (key.startsWith("on")) {
@@ -50,6 +50,12 @@ export default class Layer {
         );
       }
     });
+  }
+
+  mount(superLayer) {
+    this.backingLayer = this.createBackingLayer(this.props, superLayer);
+
+    this.applyInitialProps(this.props);
 
     this.children.forEach(child => {
       if (typeof child === "string") {
@@ -61,7 +67,11 @@ export default class Layer {
   }
 
   update(nextProps) {
-    // if (!shallowEqual(this.props, nextProps)) {}
+    // if (this.type === "Slider") {
+    //   console.log("np", nextProps);
+    // }
+
+    // if (shallowEqual(this.props, nextProps)) return;
 
     Object.keys(nextProps).forEach(key => {
       // TODO?

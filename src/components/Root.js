@@ -10,7 +10,8 @@ export default class Root {
     this.children = [];
     this.context = new Framer.Context({
       name: rootName(),
-      ...props
+      ...props,
+      perspective: 1200
     });
   }
 

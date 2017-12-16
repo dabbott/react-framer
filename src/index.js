@@ -2,67 +2,75 @@ import React from "react";
 import Reconciler from "react-reconciler";
 import emptyObject from "fbjs/lib/emptyObject";
 import invariant from "fbjs/lib/invariant";
-import { createElement, getHostContextNode } from "./utils/createElement";
+import {
+  createElement,
+  getHostContextNode,
+  Types
+} from "./utils/createElement";
+
+const debugLog = (...args) => {
+  // console.log(...args);
+};
 
 const FramerRenderer = Reconciler({
   appendInitialChild(parentInstance, child) {
-    console.log("appendInitialChild", parentInstance, child);
+    debugLog("appendInitialChild", parentInstance, child);
     parentInstance.appendChild(child);
   },
 
   createInstance(type, props, internalInstanceHandle) {
-    console.log("createInstance", type, props, internalInstanceHandle);
+    debugLog("createInstance", type, props, internalInstanceHandle);
     return createElement(type, props);
   },
 
   createTextInstance(text, rootContainerInstance, internalInstanceHandle) {
-    console.log("createTextInstance");
+    debugLog("createTextInstance");
     return text;
   },
 
   finalizeInitialChildren(domElement, type, props) {
-    console.log("finalizeInitialChildren");
+    debugLog("finalizeInitialChildren");
     return false;
   },
 
   getPublicInstance(instance) {
-    console.log("getPublicInstance");
+    debugLog("getPublicInstance");
     return instance;
   },
 
   prepareForCommit() {
-    console.log("prepareForCommit");
+    debugLog("prepareForCommit");
     // Noop
   },
 
   prepareUpdate(domElement, type, oldProps, newProps) {
-    console.log("prepareUpdate");
+    debugLog("prepareUpdate");
     return true;
   },
 
   resetAfterCommit() {
-    console.log("resetAfterCommit");
+    debugLog("resetAfterCommit");
     // Noop
   },
 
   resetTextContent(domElement) {
-    console.log("resetTextContent");
+    debugLog("resetTextContent");
     // Noop
   },
 
   // shouldDeprioritizeSubtree(type, props) {
-  //   console.log("shouldDeprioritizeSubtree");
+  //   debugLog("shouldDeprioritizeSubtree");
   //   return false;
   // },
 
   getRootHostContext(instance) {
-    console.log("getRootHostContext", instance);
+    debugLog("getRootHostContext", instance);
 
     return getHostContextNode(instance);
   },
 
   getChildHostContext() {
-    console.log("getChildHostContext");
+    debugLog("getChildHostContext");
     return emptyObject;
   },
 
@@ -78,33 +86,33 @@ const FramerRenderer = Reconciler({
 
   mutation: {
     appendChild(parentInstance, child) {
-      console.log("Mutation > appendChild", parentInstance, child, "ik");
+      debugLog("Mutation > appendChild", parentInstance, child, "ik");
       parentInstance.appendChild(child);
     },
 
     appendChildToContainer(parentInstance, child) {
-      console.log("Mutation > appendChildToContainer", parentInstance, child);
+      debugLog("Mutation > appendChildToContainer", parentInstance, child);
       parentInstance.appendChild(child);
       parentInstance.mountChildren();
     },
 
     removeChild(parentInstance, child) {
-      console.log("Mutation > removeChild");
+      debugLog("Mutation > removeChild");
       parentInstance.removeChild(child);
     },
 
     removeChildFromContainer(parentInstance, child) {
-      console.log("Mutation > removeChildFromContainer");
+      debugLog("Mutation > removeChildFromContainer");
       parentInstance.removeChild(child);
     },
 
     insertBefore(parentInstance, child, beforeChild) {
-      console.log("Mutation > insertBefore");
+      debugLog("Mutation > insertBefore");
       // noob
     },
 
     commitUpdate(instance, updatePayload, type, oldProps, newProps) {
-      console.log(
+      debugLog(
         "Mutation > commitUpdate",
         instance,
         updatePayload,
@@ -116,19 +124,19 @@ const FramerRenderer = Reconciler({
     },
 
     commitMount(instance, updatePayload, type, oldProps, newProps) {
-      console.log("Mutation > commitMount");
+      debugLog("Mutation > commitMount");
       // noop
     },
 
     commitTextUpdate(textInstance, oldText, newText) {
-      console.log("Mutation > commitTextUpdate");
+      debugLog("Mutation > commitTextUpdate");
       textInstance.children = newText;
     }
   }
 });
 
 function render(element, rootLayer) {
-  const container = createElement("ROOT", { parent: rootLayer });
+  const container = createElement(Types.Root, { parent: rootLayer });
 
   const fiber = FramerRenderer.createContainer(container);
 
@@ -137,11 +145,7 @@ function render(element, rootLayer) {
   return container;
 }
 
-const Layer = "LAYER";
-const Root = "ROOT";
-
 window.ReactFramer = {
   render,
-  Root,
-  Layer
+  ...Types
 };
