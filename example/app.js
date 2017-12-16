@@ -25,11 +25,18 @@ const Button = ({ title, ...rest }) => {
   );
 };
 
-const GradientSlider = ({ gradient, value, onValueChange, ...rest }) => {
+const GradientSlider = ({
+  gradient,
+  min,
+  max,
+  value,
+  onValueChange,
+  ...rest
+}) => {
   return (
     <Slider
-      min={0}
-      max={360}
+      min={min}
+      max={max}
       value={value}
       borderRadius={2}
       knob={{
@@ -41,8 +48,7 @@ const GradientSlider = ({ gradient, value, onValueChange, ...rest }) => {
         backgroundColor: "transparent"
       }}
       style={{
-        background:
-          "linear-gradient(to right, rgb(255,0,0) 0%, rgb(255,255,0) 15%, rgb(0,255,0) 30%, rgb(0,255,255) 50%, rgb(0,0,255) 65%, rgb(255,0,255) 80%, rgb(255,0,0) 100%)"
+        background: gradient
       }}
       onValueChange={onValueChange}
       {...rest}
@@ -53,6 +59,8 @@ const GradientSlider = ({ gradient, value, onValueChange, ...rest }) => {
 const LabeledSliderRow = ({
   gradient,
   label,
+  min,
+  max,
   value,
   displayValue,
   onValueChange,
@@ -73,12 +81,14 @@ const LabeledSliderRow = ({
         x={Align.center}
         y={Align.center}
         gradient={gradient}
+        min={min}
+        max={max}
         value={value}
         onValueChange={onValueChange}
         width={rest.width - 120}
       />
       <Text
-        x={Align.right}
+        x={Align.left(rest.width - 20)}
         y={Align.center}
         text={displayValue}
         color={"#888"}
@@ -92,17 +102,33 @@ const LabeledSliderRow = ({
 
 class App extends React.Component {
   state = {
-    backgroundColor: "steelblue",
-    hue: 190
+    hue: 190,
+    saturation: 1,
+    lightness: 0.5
   };
 
   handleHueChange = hue => {
     this.setState({ hue });
   };
 
+  handleSaturationChange = saturation => {
+    this.setState({ saturation: saturation / 100 });
+  };
+
+  handleLightnessChange = lightness => {
+    this.setState({ lightness: lightness / 100 });
+  };
+
   render() {
-    const { hue } = this.state;
-    const color = new Color({ h: hue, s: 1, l: 0.5 });
+    const { hue, saturation, lightness } = this.state;
+
+    const color = new Color({
+      h: hue,
+      s: saturation,
+      l: lightness
+    });
+
+    const currentHue = new Color({ h: hue, s: 1, l: 0.5 });
 
     return (
       <Layer
@@ -142,13 +168,51 @@ class App extends React.Component {
         >
           <LabeledSliderRow
             x={Align.center}
-            y={Align.top}
+            y={Align.center(-50)}
             height={24}
             width={510}
             label={"H"}
+            min={0}
+            max={360}
             value={hue}
-            displayValue={"240"}
+            displayValue={Math.round(hue).toString()}
             onValueChange={this.handleHueChange}
+            gradient={
+              "linear-gradient(to right, rgb(255,0,0) 0%, rgb(255,255,0) 15%, rgb(0,255,0) 30%, rgb(0,255,255) 50%, rgb(0,0,255) 65%, rgb(255,0,255) 80%, rgb(255,0,0) 100%)"
+            }
+          />
+          <LabeledSliderRow
+            x={Align.center}
+            y={Align.center}
+            height={24}
+            width={510}
+            label={"S"}
+            min={0}
+            max={100}
+            value={saturation * 100}
+            displayValue={Math.round(saturation * 100).toString()}
+            onValueChange={this.handleSaturationChange}
+            gradient={`linear-gradient(to right, ${new Color(
+              currentHue
+            ).grayscale(0)} 0%, ${currentHue} 100%)`}
+          />
+          <LabeledSliderRow
+            x={Align.center}
+            y={Align.center(50)}
+            height={24}
+            width={510}
+            label={"L"}
+            min={0}
+            max={100}
+            value={lightness * 100}
+            displayValue={Math.round(lightness * 100).toString()}
+            onValueChange={this.handleLightnessChange}
+            // gradient={`linear-gradient(to right, ${new Color(
+            //   currentHue
+            // ).lighten(-50)} 0%, ${currentHue} 50%, ${new Color(
+            //   currentHue
+            // ).lighten(100)} 100%)`}
+            gradient={currentHue}
           />
         </Layer>
       </Layer>

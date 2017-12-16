@@ -101,10 +101,6 @@ export default class Layer {
         }
       }
     } else {
-      if (key === "backgroundColor") {
-        console.log(this, nextValue, prevValue);
-      }
-
       this.backingLayer[key] = nextValue;
     }
   }
