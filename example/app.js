@@ -8,6 +8,10 @@ class App extends React.Component {
     backgroundColor: "steelblue"
   };
 
+  handleClick = () => {
+    this.setState({ backgroundColor: "lightblue" });
+  };
+
   render() {
     const { backgroundColor } = this.state;
 
@@ -25,9 +29,7 @@ class App extends React.Component {
           y={50}
           width={100}
           height={100}
-          onClick={() => {
-            this.setState({ backgroundColor: "lightblue" });
-          }}
+          onClick={this.handleClick}
         />
       </Layer>
     );

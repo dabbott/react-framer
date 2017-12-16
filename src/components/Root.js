@@ -7,6 +7,7 @@ const rootName = (() => {
 
 export default class Root {
   constructor(props) {
+    this.children = [];
     this.context = new Framer.Context({
       name: rootName(),
       ...props
@@ -14,8 +15,16 @@ export default class Root {
   }
 
   appendChild(child) {
+    this.children.push(child);
+  }
+
+  removeChild(child) {
+    this.children = this.children.filter(item => item === child);
+  }
+
+  mountChildren() {
     this.context.run(() => {
-      child.render();
+      this.children.forEach(child => child.mount());
     });
   }
 }

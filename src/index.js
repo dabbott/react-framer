@@ -7,11 +7,7 @@ import { createElement, getHostContextNode } from "./utils/createElement";
 const FramerRenderer = Reconciler({
   appendInitialChild(parentInstance, child) {
     console.log("appendInitialChild", parentInstance, child);
-    if (parentInstance.appendChild) {
-      parentInstance.appendChild(child);
-    } else {
-      parentInstance.document = child;
-    }
+    parentInstance.appendChild(child);
   },
 
   createInstance(type, props, internalInstanceHandle) {
@@ -89,6 +85,7 @@ const FramerRenderer = Reconciler({
     appendChildToContainer(parentInstance, child) {
       console.log("Mutation > appendChildToContainer", parentInstance, child);
       parentInstance.appendChild(child);
+      parentInstance.mountChildren();
     },
 
     removeChild(parentInstance, child) {

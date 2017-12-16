@@ -1,8 +1,26 @@
+import shallowEqual from "fbjs/lib/shallowEqual";
+
+class EventListenerProxy {
+  constructor(layer, key, f) {
+    this.f = f;
+    layer[key](this.run);
+  }
+
+  replace(f) {
+    this.f = f;
+  }
+
+  run = (...args) => {
+    this.f(...args);
+  };
+}
+
 export default class Layer {
   constructor(root, props) {
     this.root = root;
     this.props = props;
     this.children = [];
+    this.eventListeners = {};
     this.backingLayer = null;
   }
 
@@ -14,7 +32,7 @@ export default class Layer {
     this.children = this.children.filter(item => item === child);
   }
 
-  render(superLayer) {
+  mount(superLayer) {
     this.backingLayer = new Framer.Layer({
       ...this.props,
       superLayer
@@ -25,7 +43,11 @@ export default class Layer {
 
       // TODO: Event delegation
       if (key.startsWith("on")) {
-        this.backingLayer[key](value);
+        this.eventListeners[key] = new EventListenerProxy(
+          this.backingLayer,
+          key,
+          value
+        );
       }
     });
 
@@ -33,24 +55,36 @@ export default class Layer {
       if (typeof child === "string") {
         // TODO
       } else {
-        child.render(this.backingLayer);
+        child.mount(this.backingLayer);
       }
     });
   }
 
-  update(newProps) {
-    Object.keys(newProps).forEach(key => {
-      const value = newProps[key];
+  update(nextProps) {
+    // if (!shallowEqual(this.props, nextProps)) {}
 
-      if (key === "children") {
-        return;
-      }
+    Object.keys(nextProps).forEach(key => {
+      // TODO?
+      if (key === "children") return;
+
+      const prevValue = this.props[key];
+      const nextValue = nextProps[key];
+
+      if (nextValue === prevValue) return;
 
       // TODO: Event delegation
       if (key.startsWith("on")) {
-        this.backingLayer[key](value);
+        if (key in this.eventListeners) {
+          this.eventListeners[key].replace(nextValue);
+        } else {
+          this.eventListeners[key] = new EventListenerProxy(
+            this.backingLayer,
+            key,
+            nextValue
+          );
+        }
       } else {
-        this.backingLayer[key] = value;
+        this.backingLayer[key] = nextValue;
       }
     });
   }
