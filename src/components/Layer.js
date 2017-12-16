@@ -43,25 +43,24 @@ export default class Layer {
     return new Framer.Layer({ ...props, superLayer });
   }
 
-  applyInitialProps(props) {
-    Object.keys(props).forEach(key => {
-      const value = props[key];
+  setProp(name, value) {
+    if (typeof value === "function" && name.startsWith("on")) {
+      this.eventListeners[name] = new EventListenerProxy(
+        this.backingLayer,
+        name,
+        value
+      );
+    }
+  }
 
-      // TODO: Event delegation
-      if (typeof value === "function" && key.startsWith("on")) {
-        this.eventListeners[key] = new EventListenerProxy(
-          this.backingLayer,
-          key,
-          value
-        );
-      }
-    });
+  setProps(props) {
+    Object.keys(props).forEach(name => this.setProp(name, props[name]));
   }
 
   mount(superLayer) {
     this.backingLayer = this.createBackingLayer(this.props, superLayer);
 
-    this.applyInitialProps(this.props);
+    this.setProps(this.props);
 
     this.children.forEach(child => {
       if (typeof child === "string") {
@@ -72,36 +71,35 @@ export default class Layer {
     });
   }
 
-  updateProp(nextProps, key) {
+  updateProp(name, nextValue) {
     // TODO?
-    if (key === "children") return;
+    if (name === "children") return;
 
-    const prevValue = this.props[key];
-    const nextValue = nextProps[key];
+    const prevValue = this.props[name];
 
     if (nextValue === prevValue) return;
 
     // TODO: Event delegation
-    if (key.startsWith("on")) {
-      console.log("updating", key);
+    if (name.startsWith("on")) {
+      console.log("updating", name);
 
-      if (key in this.eventListeners) {
-        this.eventListeners[key].detach();
+      if (name in this.eventListeners) {
+        this.eventListeners[name].detach();
       }
 
       if (typeof nextValue === "function") {
-        if (key in this.eventListeners) {
-          this.eventListeners[key].replace(nextValue);
+        if (name in this.eventListeners) {
+          this.eventListeners[name].replace(nextValue);
         } else {
-          this.eventListeners[key] = new EventListenerProxy(
+          this.eventListeners[name] = new EventListenerProxy(
             this.backingLayer,
-            key,
+            name,
             nextValue
           );
         }
       }
     } else {
-      this.backingLayer[key] = nextValue;
+      this.backingLayer[name] = nextValue;
     }
   }
 
@@ -112,6 +110,8 @@ export default class Layer {
 
     // if (shallowEqual(this.props, nextProps)) return;
 
-    Object.keys(nextProps).forEach(name => this.updateProp(nextProps, name));
+    Object.keys(nextProps).forEach(name =>
+      this.updateProp(name, nextProps[name])
+    );
   }
 }

@@ -1,29 +1,10 @@
 const device = new Framer.DeviceView();
 device.setupContext();
 device.fullScreen = true;
+device.screen.backgroundColor = "white";
 
 const { render, Layer, Slider, Text } = ReactFramer;
 const { Align, Color } = Framer;
-
-const Button = ({ title, ...rest }) => {
-  return (
-    <Layer
-      backgroundColor={"white"}
-      width={200}
-      height={40}
-      borderRadius={20}
-      {...rest}
-    >
-      <Text
-        y={Align.center}
-        x={Align.center}
-        color={"#888"}
-        fontSize={20}
-        text={title}
-      />
-    </Layer>
-  );
-};
 
 const GradientSlider = ({
   gradient,
@@ -139,6 +120,16 @@ class App extends React.Component {
         backgroundColor={"#fff"}
         borderRadius={6}
         clip={true}
+        shadow1={{
+          y: 1,
+          blur: 1,
+          color: "rgba(0,0,0,0.1)"
+        }}
+        shadow2={{
+          y: 6,
+          blur: 20,
+          color: "rgba(0,0,0,0.1)"
+        }}
       >
         <Layer height={300} width={600} backgroundColor={color}>
           <Layer
@@ -207,12 +198,11 @@ class App extends React.Component {
             value={lightness * 100}
             displayValue={Math.round(lightness * 100).toString()}
             onValueChange={this.handleLightnessChange}
-            // gradient={`linear-gradient(to right, ${new Color(
-            //   currentHue
-            // ).lighten(-50)} 0%, ${currentHue} 50%, ${new Color(
-            //   currentHue
-            // ).lighten(100)} 100%)`}
-            gradient={currentHue}
+            gradient={`linear-gradient(to right, ${new Color(
+              currentHue
+            ).lighten(-50)} 0%, ${currentHue} 50%, ${new Color(
+              currentHue
+            ).lighten(100)} 100%)`}
           />
         </Layer>
       </Layer>

@@ -16,11 +16,11 @@ export default class Slider extends Layer {
     return backingLayer;
   }
 
-  updateProp(nextProps, key) {
+  updateProp(name, nextValue) {
     if (name === "knob" || name === "fill") {
       return;
     }
 
-    return super.updateProp(nextProps, name);
+    return super.updateProp(name, nextValue);
   }
 }
