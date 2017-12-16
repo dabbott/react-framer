@@ -8,6 +8,29 @@ device.screen.backgroundColor = "white";
 const { render, Layer, Slider, Text } = ReactFramer;
 const { Align, Color } = Framer;
 
+const ColorLabel = ({ text }) => (
+  <Layer
+    x={Align.center}
+    y={Align.center}
+    height={46}
+    width={200}
+    backgroundColor={"rgba(0,0,0,0.5)"}
+    borderRadius={100}
+  >
+    <Text
+      x={Align.center}
+      y={Align.center}
+      width={200}
+      text={text}
+      color={"white"}
+      fontSize={17}
+      fontWeight={600}
+      textAlign={"center"}
+      lineHeight={46}
+    />
+  </Layer>
+);
+
 const GradientSlider = ({
   gradient,
   min,
@@ -148,25 +171,7 @@ class App extends React.Component {
         }}
       >
         <Layer height={300} width={600} backgroundColor={color}>
-          <Layer
-            x={Align.center}
-            y={Align.center}
-            height={46}
-            width={200}
-            backgroundColor={"rgba(0,0,0,0.5)"}
-            borderRadius={100}
-          >
-            <Text
-              x={Align.center}
-              y={Align.center}
-              text={color.toHslString()}
-              color={"white"}
-              fontSize={17}
-              fontWeight={600}
-              textAlign={"center"}
-              lineHeight={46}
-            />
-          </Layer>
+          <ColorLabel text={color.toHslString()} />
         </Layer>
         <Layer
           y={Align.top(300)}
