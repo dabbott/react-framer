@@ -30,7 +30,16 @@ const GradientSlider = ({
       knob={{
         width: 10,
         height: 24,
-        borderRadius: 20
+        borderRadius: 20,
+        shadow1: {
+          spread: 1,
+          color: "rgba(0,0,0,0.1)"
+        },
+        shadow2: {
+          y: 2,
+          blur: 6,
+          color: "rgba(0,0,0,0.2)"
+        }
       }}
       fill={{
         backgroundColor: "transparent"
