@@ -14,6 +14,12 @@ class EventListenerProxy {
   replace(f) {
     this.f = f;
   }
+
+  // TODO: There's no way to clean these up, since we don't
+  // know then underlying event name. Maybe @on can return a subscription?
+  detach() {
+    this.f = () => {};
+  }
 }
 
 export default class Layer {
@@ -42,7 +48,7 @@ export default class Layer {
       const value = props[key];
 
       // TODO: Event delegation
-      if (key.startsWith("on")) {
+      if (typeof value === "function" && key.startsWith("on")) {
         this.eventListeners[key] = new EventListenerProxy(
           this.backingLayer,
           key,
@@ -66,24 +72,24 @@ export default class Layer {
     });
   }
 
-  update(nextProps) {
-    // if (this.type === "Slider") {
-    //   console.log("np", nextProps);
-    // }
+  updateProp(nextProps, key) {
+    // TODO?
+    if (key === "children") return;
 
-    // if (shallowEqual(this.props, nextProps)) return;
+    const prevValue = this.props[key];
+    const nextValue = nextProps[key];
 
-    Object.keys(nextProps).forEach(key => {
-      // TODO?
-      if (key === "children") return;
+    if (nextValue === prevValue) return;
 
-      const prevValue = this.props[key];
-      const nextValue = nextProps[key];
+    // TODO: Event delegation
+    if (key.startsWith("on")) {
+      console.log("updating", key);
 
-      if (nextValue === prevValue) return;
+      if (key in this.eventListeners) {
+        this.eventListeners[key].detach();
+      }
 
-      // TODO: Event delegation
-      if (key.startsWith("on")) {
+      if (typeof nextValue === "function") {
         if (key in this.eventListeners) {
           this.eventListeners[key].replace(nextValue);
         } else {
@@ -93,9 +99,23 @@ export default class Layer {
             nextValue
           );
         }
-      } else {
-        this.backingLayer[key] = nextValue;
       }
-    });
+    } else {
+      if (key === "backgroundColor") {
+        console.log(this, nextValue, prevValue);
+      }
+
+      this.backingLayer[key] = nextValue;
+    }
+  }
+
+  update(nextProps) {
+    // if (this.type === "Slider") {
+    //   console.log("np", nextProps);
+    // }
+
+    // if (shallowEqual(this.props, nextProps)) return;
+
+    Object.keys(nextProps).forEach(name => this.updateProp(nextProps, name));
   }
 }
