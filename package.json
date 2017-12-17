@@ -8,9 +8,6 @@
     "build": "webpack -p"
   },
   "dependencies": {
-    "babel-runtime": "^6.26.0",
-    "fbjs": "0.8.16",
-    "react": "^16.1.1",
     "react-reconciler": "0.2.0"
   },
   "devDependencies": {
@@ -20,6 +17,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
+    "react": "^16.2.0",
     "webpack": "^3.8.1",
     "webpack-dev-server": "^2.9.4"
   }

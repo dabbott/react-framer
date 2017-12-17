@@ -1,11 +1,12 @@
 import Reconciler from "react-reconciler";
-import emptyObject from "fbjs/lib/emptyObject";
 
 import { createElement } from "../utils/createElement";
 
 const debugLog = (...args) => {
   // console.log(...args);
 };
+
+const emptyObject = {};
 
 export default Reconciler({
   appendInitialChild(parentInstance, child) {
