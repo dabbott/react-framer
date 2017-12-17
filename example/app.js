@@ -1,8 +1,6 @@
 import { render, Layer, Slider, Text } from "react-framer";
 import Framer from "framer";
 
-import linearGradient from "./utils/linearGradient";
-
 const { Align, Color } = Framer;
 
 const ColorLabel = ({ text }) => (
@@ -187,19 +185,15 @@ class App extends React.Component {
             value={hue}
             displayValue={Math.round(hue).toString()}
             onValueChange={this.handleHueChange}
-            gradient={linearGradient({
-              direction: "to right",
-              colors: [
-                "rgb(255,0,0)",
-                "rgb(255, 255, 0)",
-                "rgb(0, 255, 0)",
-                "rgb(0, 255, 255)",
-                "rgb(0, 0, 255)",
-                "rgb(255, 0, 255)",
-                "rgb(255, 0, 0)"
-              ],
-              locations: ["0%", "15%", "30%", "50%", "65%", "80%", "100%"]
-            })}
+            gradient={linearGradient("to right", [
+              ["rgb(255,0,0)", "0%"],
+              ["rgb(255, 255, 0)", "15%"],
+              ["rgb(0, 255, 0)", "30%"],
+              ["rgb(0, 255, 255)", "50%"],
+              ["rgb(0, 0, 255)", "65%"],
+              ["rgb(255, 0, 255)", "80%"],
+              ["rgb(255, 0, 0)", "100%"]
+            ])}
           />
           <LabeledSliderRow
             x={Align.center}
@@ -212,11 +206,10 @@ class App extends React.Component {
             value={saturation * 100}
             displayValue={Math.round(saturation * 100).toString()}
             onValueChange={this.handleSaturationChange}
-            gradient={linearGradient({
-              direction: "to right",
-              colors: [new Color(currentHue).grayscale(0), currentHue],
-              locations: ["0%", "100%"]
-            })}
+            gradient={linearGradient("to right", [
+              [new Color(currentHue).grayscale(0), "0%"],
+              [currentHue, "100%"]
+            ])}
           />
           <LabeledSliderRow
             x={Align.center}
@@ -229,21 +222,25 @@ class App extends React.Component {
             value={lightness * 100}
             displayValue={Math.round(lightness * 100).toString()}
             onValueChange={this.handleLightnessChange}
-            gradient={linearGradient({
-              direction: "to right",
-              colors: [
-                new Color(currentHue).lighten(-50),
-                currentHue,
-                new Color(currentHue).lighten(100)
-              ],
-              locations: ["0%", "50%", "100%"]
-            })}
+            gradient={linearGradient("to right", [
+              [new Color(currentHue).lighten(-50), "0%"],
+              [currentHue, "50%"],
+              [new Color(currentHue).lighten(100), "100%"]
+            ])}
           />
         </Layer>
       </Layer>
     );
   }
 }
+
+function linearGradient(direction, colorStops) {
+  colorStops = colorStops.map(pair => pair.join(" ")).join(", ");
+
+  return `linear-gradient(${direction}, ${colorStops})`;
+}
+
+/* --- Setup device and render app --- */
 
 const device = new Framer.DeviceView();
 device.setupContext();
