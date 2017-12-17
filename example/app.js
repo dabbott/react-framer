@@ -248,8 +248,8 @@ device.fullScreen = true;
 device.deviceType = "apple-ipad-air-2-silver";
 device.content.backgroundColor = "white";
 
-render(<App />, device.context);
+render(<App />);
 
 window.addEventListener("resize", () => {
-  render(<App />, device.context);
+  render(<App />);
 });
