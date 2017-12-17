@@ -1,7 +1,2 @@
-import { Types } from "./utils/createElement";
-import render from "./host/render";
-
-window.ReactFramer = {
-  render,
-  ...Types
-};
+export * from "./utils/ElementTypes";
+export render from "./host/render";

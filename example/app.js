@@ -1,12 +1,14 @@
+import { render, Layer, Slider, Text } from "react-framer";
+import Framer from "framer";
+
 import linearGradient from "./utils/linearGradient";
+
+const { Align, Color } = Framer;
 
 const device = new Framer.DeviceView();
 device.setupContext();
 device.fullScreen = true;
 device.screen.backgroundColor = "white";
-
-const { render, Layer, Slider, Text } = ReactFramer;
-const { Align, Color } = Framer;
 
 const ColorLabel = ({ text }) => (
   <Layer

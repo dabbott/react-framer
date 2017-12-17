@@ -1,13 +1,7 @@
 import Layer from "../components/Layer";
 import Slider from "../components/Slider";
 import Text from "../components/Text";
-import keyMirror from "fbjs/lib/keyMirror";
-
-export const Types = keyMirror({
-  Layer: true,
-  Slider: true,
-  Text: true
-});
+import * as Types from "./ElementTypes";
 
 /**
  * Creates a Framer element

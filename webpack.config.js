@@ -1,16 +1,7 @@
 const path = require("path");
 
 module.exports = options => {
-  return {
-    entry: {
-      "react-framer": "./src/index.js",
-      example: "./example/app.js"
-    },
-    output: {
-      filename: "[name].js",
-      path: path.join(__dirname, "dist"),
-      publicPath: "/dist/"
-    },
+  const base = {
     module: {
       rules: [
         {
@@ -26,9 +17,45 @@ module.exports = options => {
           ]
         }
       ]
+    }
+  };
+
+  const example = {
+    ...base,
+    entry: {
+      example: "./example/app.js"
+    },
+    output: {
+      filename: "[name].js",
+      path: path.join(__dirname, "dist"),
+      publicPath: "/dist/"
+    },
+    externals: {
+      framer: "Framer",
+      "react-framer": "ReactFramer"
+    }
+  };
+
+  const library = {
+    ...base,
+    entry: {
+      "react-framer": "./src/index.js"
+    },
+    output: {
+      filename: "[name].js",
+      path: path.join(__dirname, "dist"),
+      publicPath: "/dist/",
+      library: {
+        root: "ReactFramer",
+        commonjs: "react-framer",
+        amd: "react-framer"
+      },
+      libraryTarget: "umd"
     },
     externals: {
       framer: "Framer"
     }
   };
+
+  return [example, library];
 };
