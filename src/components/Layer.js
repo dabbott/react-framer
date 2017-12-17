@@ -1,3 +1,5 @@
+import Framer from "framer";
+
 class EventListenerProxy {
   constructor(layer, key, f) {
     this.f = f;

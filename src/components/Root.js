@@ -1,4 +1,4 @@
-import React from "react";
+import Framer from "framer";
 
 const contextName = (() => {
   let count = 0;

@@ -26,6 +26,9 @@ module.exports = options => {
           ]
         }
       ]
+    },
+    externals: {
+      framer: "Framer"
     }
   };
 };

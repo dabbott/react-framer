@@ -1,3 +1,5 @@
+import Framer from "framer";
+
 import Layer from "./Layer";
 
 const mergeObjects = {
