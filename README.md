@@ -2,12 +2,6 @@
 
 This is a React renderer for Framer! You can write React components that render Framer layers.
 
-**This project is just a prototype**
-
-### Examples
-
-HSL color-picker prototype: https://dabbott.github.io/react-framer/example
-
 ### Why?
 
 Framer is great for interaction design. React is great for building complex UIs. Why not combine the two and get the best of both worlds?
@@ -40,6 +34,10 @@ const Label = ({ text }) => (
 ```
 
 To see more, check out the color-picker example code: https://github.com/dabbott/react-framer/blob/master/example/app.js
+
+### Examples
+
+HSL color-picker prototype: https://dabbott.github.io/react-framer/example
 
 ### Instructions
 
