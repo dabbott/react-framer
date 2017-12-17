@@ -1,7 +1,7 @@
 {
   "name": "react-framer",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "dist/react-framer.js",
   "license": "MIT",
   "scripts": {
     "dev": "webpack-dev-server --env.dev",
