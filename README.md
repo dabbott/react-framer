@@ -2,7 +2,11 @@
 
 This is a React renderer for Framer! You can write React components that render Framer layers.
 
-**This is just a prototype.**
+Here's an example HSL color-picker prototype written with `react-framer`: https://dabbott.github.io/react-framer/example
+
+The code is here: https://github.com/dabbott/react-framer/blob/master/example/app.js
+
+**This project is just a prototype so far. There are a lot of features missing.**
 
 ### Instructions
 
