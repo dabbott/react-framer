@@ -122,18 +122,6 @@ class App extends React.Component {
     lightness: 0.5
   };
 
-  handleHueChange = hue => {
-    this.setState({ hue });
-  };
-
-  handleSaturationChange = saturation => {
-    this.setState({ saturation: saturation / 100 });
-  };
-
-  handleLightnessChange = lightness => {
-    this.setState({ lightness: lightness / 100 });
-  };
-
   render() {
     const { hue, saturation, lightness } = this.state;
 
@@ -184,7 +172,9 @@ class App extends React.Component {
             max={360}
             value={hue}
             displayValue={Math.round(hue).toString()}
-            onValueChange={this.handleHueChange}
+            onValueChange={hue => {
+              this.setState({ hue });
+            }}
             gradient={linearGradient("to right", [
               ["rgb(255,0,0)", "0%"],
               ["rgb(255, 255, 0)", "15%"],
@@ -205,7 +195,9 @@ class App extends React.Component {
             max={100}
             value={saturation * 100}
             displayValue={Math.round(saturation * 100).toString()}
-            onValueChange={this.handleSaturationChange}
+            onValueChange={saturation => {
+              this.setState({ saturation: saturation / 100 });
+            }}
             gradient={linearGradient("to right", [
               [new Color(currentHue).grayscale(0), "0%"],
               [currentHue, "100%"]
@@ -221,7 +213,9 @@ class App extends React.Component {
             max={100}
             value={lightness * 100}
             displayValue={Math.round(lightness * 100).toString()}
-            onValueChange={this.handleLightnessChange}
+            onValueChange={lightness => {
+              this.setState({ lightness: lightness / 100 });
+            }}
             gradient={linearGradient("to right", [
               [new Color(currentHue).lighten(-50), "0%"],
               [currentHue, "50%"],
