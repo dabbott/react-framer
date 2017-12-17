@@ -41,6 +41,8 @@ HSL color-picker prototype: https://dabbott.github.io/react-framer/example
 
 ### Instructions
 
+**You're welcome to try it out! However, `react-framer` is a proof-of-concept and is missing a lot of Framer features. I'm not sure how well it works with Framer Studio, if at all.**
+
 Make sure you have `yarn` installed and run:
 
 ```bash
