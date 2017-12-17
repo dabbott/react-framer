@@ -1,9 +1,9 @@
 function zip(a, b) {
-  const c = [];
+  const result = [];
   for (var i = 0; i < a.length; i++) {
-    c.push([a[i], b[i]]);
+    result.push([a[i], b[i]]);
   }
-  return c;
+  return result;
 }
 
 export default function linearGradient({ direction, colors, locations }) {
