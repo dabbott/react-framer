@@ -1,5 +1,3 @@
-import shallowEqual from "fbjs/lib/shallowEqual";
-
 class EventListenerProxy {
   constructor(layer, key, f) {
     this.f = f;
@@ -81,8 +79,6 @@ export default class Layer {
 
     // TODO: Event delegation
     if (name.startsWith("on")) {
-      console.log("updating", name);
-
       if (name in this.eventListeners) {
         this.eventListeners[name].detach();
       }
@@ -104,12 +100,6 @@ export default class Layer {
   }
 
   update(nextProps) {
-    // if (this.type === "Slider") {
-    //   console.log("np", nextProps);
-    // }
-
-    // if (shallowEqual(this.props, nextProps)) return;
-
     Object.keys(nextProps).forEach(name =>
       this.updateProp(name, nextProps[name])
     );
