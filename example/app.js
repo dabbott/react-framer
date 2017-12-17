@@ -250,6 +250,6 @@ class App extends React.Component {
 
 render(<App />, device.screen);
 
-// window.addEventListener("resize", () => {
-//   render(<App />, device.screen);
-// });
+window.addEventListener("resize", () => {
+  render(<App />, device.screen);
+});

@@ -2,11 +2,8 @@ import React from "react";
 import Reconciler from "react-reconciler";
 import emptyObject from "fbjs/lib/emptyObject";
 import invariant from "fbjs/lib/invariant";
-import {
-  createElement,
-  getHostContextNode,
-  Types
-} from "./utils/createElement";
+import { createElement, Types } from "./utils/createElement";
+import Root from "./components/Root";
 
 const debugLog = (...args) => {
   // console.log(...args);
@@ -66,7 +63,7 @@ const FramerRenderer = Reconciler({
   getRootHostContext(instance) {
     debugLog("getRootHostContext", instance);
 
-    return getHostContextNode(instance);
+    return instance;
   },
 
   getChildHostContext() {
@@ -86,7 +83,7 @@ const FramerRenderer = Reconciler({
 
   mutation: {
     appendChild(parentInstance, child) {
-      debugLog("Mutation > appendChild", parentInstance, child, "ik");
+      debugLog("Mutation > appendChild", parentInstance, child);
       parentInstance.appendChild(child);
     },
 
@@ -136,13 +133,22 @@ const FramerRenderer = Reconciler({
 });
 
 function render(element, rootLayer) {
-  const container = createElement(Types.Root, { parent: rootLayer });
+  if (rootLayer._react) {
+    const { container, fiber } = rootLayer._react;
 
-  const fiber = FramerRenderer.createContainer(container);
+    FramerRenderer.updateContainer(element, fiber, null);
 
-  FramerRenderer.updateContainer(element, fiber, null);
+    return container;
+  } else {
+    const container = new Root({ parent: rootLayer });
+    const fiber = FramerRenderer.createContainer(container);
 
-  return container;
+    rootLayer._react = { container, fiber };
+
+    FramerRenderer.updateContainer(element, fiber, null);
+
+    return container;
+  }
 }
 
 window.ReactFramer = {

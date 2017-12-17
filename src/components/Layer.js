@@ -75,9 +75,10 @@ export default class Layer {
 
     const prevValue = this.props[name];
 
-    if (nextValue === prevValue) return;
+    // TODO: What's the right thing to do here? There are props we always
+    // want to update even if they are equal, e.g. Align.center
+    // if (nextValue === prevValue) return;
 
-    // TODO: Event delegation
     if (name.startsWith("on")) {
       if (name in this.eventListeners) {
         this.eventListeners[name].detach();

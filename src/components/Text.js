@@ -1,9 +1,11 @@
 import Layer from "./Layer";
 
+const DEFAULT_FONT_FAMILY = "Helvetica Neue, Helvetica, Arial, sans-serif";
+
 export default class Slider extends Layer {
   createBackingLayer(props, superLayer) {
     const backingLayer = new Framer.TextLayer({
-      fontFamily: "Helvetica Neue",
+      fontFamily: DEFAULT_FONT_FAMILY,
       ...props,
       superLayer
     });

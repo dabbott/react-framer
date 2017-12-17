@@ -1,15 +1,16 @@
 import React from "react";
 
-const rootName = (() => {
-  let base = 0;
-  return () => `Context${base++}`;
+const contextName = (() => {
+  let count = 0;
+  return () => `React${count++}`;
 })();
 
+// TODO: Allow nesting contexts within other elements
 export default class Root {
   constructor(props) {
     this.children = [];
     this.context = new Framer.Context({
-      name: rootName(),
+      name: contextName(),
       ...props,
       perspective: 1200
     });
