@@ -6,6 +6,8 @@ You can try it out in your browser using this codepen template: https://codepen.
 
 Or play with this more fully-featured HSL color-picker prototype (originally written by the Framer team): https://dabbott.github.io/react-framer/example
 
+**This project is a proof-of-concept and is missing a lot of React/Framer features. I'm not sure how well it works with Framer Studio, if at all.**
+
 ### Why?
 
 Framer is great for interaction design. React is great for building complex UIs. Why not combine the two and get the best of both worlds?
@@ -40,8 +42,6 @@ const Label = ({ text }) => (
 To see more, check out the color-picker example code: https://github.com/dabbott/react-framer/blob/master/example/app.js
 
 ### Instructions
-
-**You're welcome to try it out! However, `react-framer` is a proof-of-concept and is missing a lot of Framer features. I'm not sure how well it works with Framer Studio, if at all.**
 
 Make sure you have `yarn` installed and run:
 
