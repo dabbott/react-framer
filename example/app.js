@@ -5,11 +5,6 @@ import linearGradient from "./utils/linearGradient";
 
 const { Align, Color } = Framer;
 
-const device = new Framer.DeviceView();
-device.setupContext();
-device.fullScreen = true;
-device.screen.backgroundColor = "white";
-
 const ColorLabel = ({ text }) => (
   <Layer
     x={Align.center}
@@ -250,8 +245,14 @@ class App extends React.Component {
   }
 }
 
-render(<App />, device.screen);
+const device = new Framer.DeviceView();
+device.setupContext();
+device.fullScreen = true;
+device.deviceType = "apple-ipad-air-2-silver";
+device.content.backgroundColor = "white";
+
+render(<App />, device.context);
 
 window.addEventListener("resize", () => {
-  render(<App />, device.screen);
+  render(<App />, device.context);
 });

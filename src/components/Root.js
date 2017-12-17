@@ -5,15 +5,19 @@ const contextName = (() => {
   return () => `React${count++}`;
 })();
 
-// TODO: Allow nesting contexts within other elements
 export default class Root {
-  constructor(props) {
+  // Parent can either be a layer or a context.
+  // TODO: Fix scaling/devicePixelRatio/etc issues when using a layer,
+  constructor(parent) {
     this.children = [];
-    this.context = new Framer.Context({
-      name: contextName(),
-      ...props,
-      perspective: 1200
-    });
+    this.context =
+      parent instanceof Framer.Context
+        ? parent
+        : new Framer.Context({
+            name: contextName(),
+            parent,
+            perspective: 1200
+          });
   }
 
   appendChild(child) {
